@@ -15,12 +15,16 @@ const campgroundsRoutes = require("./routes/campgrounds");
 const commentRoutes = require("./routes/comments");
 const indexRoutes = require("./routes/index");
 
+//Modify official guide
 mongoose.set("useFindAndModify", false);
 mongoose.set("useCreateIndex", true);
 mongoose.set("useUnifiedTopology", true);
-mongoose.connect("mongodb://localhost:27017/yelp_camp", {
-  useNewUrlParser: true,
-});
+mongoose.connect(
+  "mongodb+srv://milan:jehovah1985@cluster0-cxwkp.mongodb.net/yelp_camp?retryWrites=true&w=majority",
+  {
+    useNewUrlParser: true,
+  }
+);
 
 app.use(
   bodyParser.urlencoded({
