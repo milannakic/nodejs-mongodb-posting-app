@@ -20,7 +20,7 @@ mongoose.set("useUnifiedTopology", true);
 mongoose.connect("mongodb://localhost:27017/yelp_camp", {
   useNewUrlParser: true,
 }); */
-//REMOTE CONNECTION 2 - Works as well but not connection close as well
+//REMOTE CONNECTION URL
 // const uri = "mongodb+srv://milan:jehovah1985@cluster0-cxwkp.mongodb.net/yelp_camp?retryWrites=true&w=majority";
 
 const uri = databaseURL;
