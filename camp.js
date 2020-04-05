@@ -11,9 +11,7 @@ const User = require("./models/user");
 const campgroundsRoutes = require("./routes/campgrounds");
 const commentRoutes = require("./routes/comments");
 const indexRoutes = require("./routes/index");
-
 const { databaseURL } = require("./config");
-console.log(databaseURL);
 
 //LOCAL DB CONNECTION
 /* mongoose.set("useFindAndModify", false);
