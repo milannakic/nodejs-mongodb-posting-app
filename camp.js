@@ -20,17 +20,6 @@ mongoose.connect("mongodb://localhost:27017/yelp_camp", {
   useNewUrlParser: true,
 }); */
 
-//REMOTE CONNECTION 1 - Works but no connection close
-/* mongoose.set("useFindAndModify", false);
-mongoose.set("useCreateIndex", true);
-mongoose.set("useUnifiedTopology", true);
-mongoose.connect(
-  "mongodb+srv://milan:jehovah1985@cluster0-cxwkp.mongodb.net/yelp_camp?retryWrites=true&w=majority",
-  {
-    useNewUrlParser: true,
-  }
-); */
-
 //REMOTE CONNECTION 2 - Works as well but not connection close as well
 const uri =
   "mongodb+srv://milan:jehovah1985@cluster0-cxwkp.mongodb.net/yelp_camp?retryWrites=true&w=majority";
@@ -92,7 +81,7 @@ app.use("/campgrounds", campgroundsRoutes);
 //all routes with id require "mergeParams: true" parameter in routes
 app.use("/campgrounds/:id/comments", commentRoutes);
 
-//listener
+//listener adapted to cover HEROKU and local
 var port = process.env.PORT || 3000;
 app.listen(port, function () {
   console.log("Our app is running on http://localhost: " + port);
