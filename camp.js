@@ -11,6 +11,7 @@ const User = require("./models/user");
 const campgroundsRoutes = require("./routes/campgrounds");
 const commentRoutes = require("./routes/comments");
 const indexRoutes = require("./routes/index");
+const { databaseURL } = require("./config");
 
 //LOCAL DB CONNECTION
 /* mongoose.set("useFindAndModify", false);
@@ -19,10 +20,10 @@ mongoose.set("useUnifiedTopology", true);
 mongoose.connect("mongodb://localhost:27017/yelp_camp", {
   useNewUrlParser: true,
 }); */
-
 //REMOTE CONNECTION 2 - Works as well but not connection close as well
-const uri =
-  "mongodb+srv://milan:jehovah1985@cluster0-cxwkp.mongodb.net/yelp_camp?retryWrites=true&w=majority";
+// const uri = "mongodb+srv://milan:jehovah1985@cluster0-cxwkp.mongodb.net/yelp_camp?retryWrites=true&w=majority";
+
+const uri = databaseURL;
 const options = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
