@@ -6,7 +6,6 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const flash = require("connect-flash");
 const methodOverride = require("method-override");
-
 const User = require("./models/user");
 //const seedDB = require("./seeds");
 
@@ -26,6 +25,7 @@ mongoose.connect(
   }
 ); */
 
+//Works as well but not connection close as well
 const uri =
   "mongodb+srv://milan:jehovah1985@cluster0-cxwkp.mongodb.net/yelp_camp?retryWrites=true&w=majority";
 const options = {
@@ -40,9 +40,7 @@ const options = {
   family: 4, // Use IPv4, skip trying IPv6
 };
 mongoose.connect(uri, options).then(
-  () => {
-    /** ready to use. The `mongoose.connect()` promise resolves to mongoose instance. */
-  },
+  () => {},
   (err) => {
     console.log(err);
   }
@@ -57,8 +55,6 @@ app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
 app.use(flash());
-
-//to run the delete and populate again
 //seedDB();
 
 //PASSPORT CONFIG
@@ -85,9 +81,7 @@ app.use(function (req, res, next) {
 });
 
 app.use(indexRoutes);
-//potential further refactor approach is to append the common start of the route "/campgrounds"
 app.use("/campgrounds", campgroundsRoutes);
-
 //potential further refactor approach is to append the common start of the route "/campgrounds/:id/comments"
 //all routes with id require "mergeParams: true" parameter in routes
 app.use("/campgrounds/:id/comments", commentRoutes);
