@@ -12,7 +12,7 @@ const campgroundsRoutes = require("./routes/campgrounds");
 const commentRoutes = require("./routes/comments");
 const indexRoutes = require("./routes/index");
 
-//Local connection
+//LOCAL DB CONNECTION
 /* mongoose.set("useFindAndModify", false);
 mongoose.set("useCreateIndex", true);
 mongoose.set("useUnifiedTopology", true);
@@ -32,7 +32,8 @@ mongoose.connect(
 ); */
 
 //REMOTE CONNECTION 2 - Works as well but not connection close as well
-const uriLocal = "mongodb://localhost:27017/yelp_camp";
+const uri =
+  "mongodb+srv://milan:jehovah1985@cluster0-cxwkp.mongodb.net/yelp_camp?retryWrites=true&w=majority";
 const options = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -44,7 +45,7 @@ const options = {
   socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
   family: 4, // Use IPv4, skip trying IPv6
 };
-mongoose.connect(uriLocal, options).then(
+mongoose.connect(uri, options).then(
   () => {},
   (err) => {
     console.log(err);
