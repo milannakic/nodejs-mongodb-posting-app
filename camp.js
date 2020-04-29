@@ -13,7 +13,7 @@ const commentRoutes = require("./routes/comments");
 const indexRoutes = require("./routes/index");
 const { databaseURL } = require("./config");
 
-//LOCAL DB CONNECTION
+//PURE LOCAL DB CONNECTION
 /* mongoose.set("useFindAndModify", false);
 mongoose.set("useCreateIndex", true);
 mongoose.set("useUnifiedTopology", true);
