@@ -9,11 +9,14 @@ middlewareObj.checkCampgroundOwnership = function (req, res, next) {
     Campground.findById(req.params.id, function (err, foundCampground) {
       //must add || !foundCampground to cover cases where ID does match he pattern but it not valid/existing
       if (err || !foundCampground) {
-        req.flash("error", "Campground not found");
+        req.flash("error", "Cannot find what you are searching for");
         res.redirect("back");
       } else {
         // does user own the campground?
-        if (foundCampground.author.id.equals(req.user._id)) {
+        if (
+          foundCampground.author.id.equals(req.user._id) ||
+          req.user.isAdmin
+        ) {
           next();
         } else {
           req.flash("error", "Permission denied, you do not own this sh1t");
@@ -22,7 +25,7 @@ middlewareObj.checkCampgroundOwnership = function (req, res, next) {
       }
     });
   } else {
-    req.flash("error", "Login first a-hole!");
+    req.flash("error", "Login first dude!");
     res.redirect("back");
   }
 };
@@ -35,7 +38,7 @@ middlewareObj.checkCommentOwnership = function (req, res, next) {
         res.redirect("back");
       } else {
         // does user own the comment?
-        if (foundComment.author.id.equals(req.user._id)) {
+        if (foundComment.author.id.equals(req.user._id) || req.user.isAdmin) {
           next();
         } else {
           req.flash("error", "Noup can't do so, you didn't create this dude");
@@ -54,7 +57,7 @@ middlewareObj.isLoggedIn = function (req, res, next) {
     return next();
   }
   //here we add a message to a middleware that can be called from other paces/routes
-  req.flash("error", "Yo a-hole, you must be logged in!");
+  req.flash("error", "Yo dude, you must be logged in!");
   res.redirect("/login");
 };
 
