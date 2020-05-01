@@ -13,7 +13,12 @@
           $<%= campground.price %>/night
         </p>
         <h5 class="card-title">Name: <%= campground.name %></h5>
-        <p><strong>Submitted by:</strong> <%= campground.author.username %></p>
+        <p>
+          <strong>Submitted by:</strong>
+          <a href="/users/<%= campground.author.id %>"
+            ><%= campground.author.username %></a
+          >
+        </p>
         <hr />
         <p class="card-text">
           <strong>Description:</strong> <%= campground.description %>
