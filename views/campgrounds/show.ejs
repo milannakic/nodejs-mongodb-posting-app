@@ -21,9 +21,11 @@
           <h6 class="card-title">Location: <%= campground.location %></h6>
           <p>
             <em
-              >Submitted by: <%= campground.author.username %>, <%=
-              moment(campground.createdAt).fromNow() %></em
-            >
+              >Submitted by:
+              <a href="/users/<%= campground.author.id %>"
+                ><%= campground.author.username %></a
+              >
+            </em>
           </p>
           <hr />
           <p class="card-text"><%= campground.description %></p>
