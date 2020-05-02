@@ -11,9 +11,9 @@ router.get("/", function (req, res) {
   });
 });
 
-//show register form
+// show register form
 router.get("/register", function (req, res) {
-  res.render("register");
+  res.render("register", { page: "register" });
 });
 
 //handle signup logic
@@ -34,10 +34,8 @@ router.post("/register", function (req, res) {
       req.flash("error", err.message);
       return res.render("register");
     }
-    //already built-in method for checking if the username exists in the DB
     passport.authenticate("local")(req, res, function () {
-      //we could user req.body.username but newlyCreatedUser.username is safer as the DB could maybe change it somehow
-      req.flash("success", "Welcome " + newlyCreatedUser.username);
+      req.flash("success", "Welcome to something " + newlyCreatedUser.username);
       res.redirect("/campgrounds");
     });
   });
@@ -45,26 +43,25 @@ router.post("/register", function (req, res) {
 
 //show login form
 router.get("/login", function (req, res) {
-  res.render("login");
+  res.render("login", { page: "login" });
 });
 
 //handling login logic
-//passport.authenticate is the middleware
-//we just check if user exists and decide what to do
 router.post(
   "/login",
   passport.authenticate("local", {
     successRedirect: "/campgrounds",
     failureRedirect: "/login",
+    failureFlash: true,
+    successFlash: "Welcome to Something by MN!",
   }),
   function (req, res) {}
 );
 
-//logout route
+// logout route
 router.get("/logout", function (req, res) {
-  //already defined by added packages
-  req.logOut();
-  req.flash("success", "Logged you out cunt!");
+  req.logout();
+  req.flash("success", "Bye Bye!");
   res.redirect("/campgrounds");
 });
 

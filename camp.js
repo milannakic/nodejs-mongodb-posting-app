@@ -1,8 +1,11 @@
+require("dotenv").config();
+
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const passport = require("passport");
+const cookieParser = require("cookie-parser");
 const LocalStrategy = require("passport-local");
 const flash = require("connect-flash");
 const methodOverride = require("method-override");
@@ -11,9 +14,8 @@ const User = require("./models/user");
 const campgroundsRoutes = require("./routes/campgrounds");
 const commentRoutes = require("./routes/comments");
 const indexRoutes = require("./routes/index");
-const { databaseURL } = require("./config");
 
-const uri = databaseURL;
+const uri = process.env.DATABASEURL;
 const options = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -40,7 +42,8 @@ app.use(
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
-app.use(flash());
+app.use(cookieParser("secret"));
+app.locals.moment = require("moment");
 //seedDB();
 
 //PASSPORT CONFIG
@@ -51,6 +54,8 @@ app.use(
     saveUninitialized: false,
   })
 );
+
+app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));

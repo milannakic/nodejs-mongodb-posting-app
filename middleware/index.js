@@ -1,64 +1,72 @@
-var Campground = require("../models/campground");
 var Comment = require("../models/comment");
-
-// all the middleare goes here
-var middlewareObj = {};
-
-middlewareObj.checkCampgroundOwnership = function (req, res, next) {
-  if (req.isAuthenticated()) {
+var Campground = require("../models/campground");
+module.exports = {
+  isLoggedIn: function (req, res, next) {
+    if (req.isAuthenticated()) {
+      return next();
+    }
+    req.flash("error", "Yo, you must be signed in to do that!");
+    res.redirect("/login");
+  },
+  checkUserCampground: function (req, res, next) {
     Campground.findById(req.params.id, function (err, foundCampground) {
-      //must add || !foundCampground to cover cases where ID does match he pattern but it not valid/existing
       if (err || !foundCampground) {
-        req.flash("error", "Cannot find what you are searching for");
-        res.redirect("back");
+        console.log(err);
+        req.flash("error", "Sorry, that post does not exist!");
+        res.redirect("/campgrounds");
+      } else if (
+        foundCampground.author.id.equals(req.user._id) ||
+        req.user.isAdmin
+      ) {
+        req.campground = foundCampground;
+        next();
       } else {
-        // does user own the campground?
-        if (
-          foundCampground.author.id.equals(req.user._id) ||
-          req.user.isAdmin
-        ) {
-          next();
-        } else {
-          req.flash("error", "Permission denied, you do not own this sh1t");
-          res.redirect("back");
-        }
+        req.flash("error", "Dude, you don't have permission to do that!");
+        res.redirect("/campgrounds/" + req.params.id);
       }
     });
-  } else {
-    req.flash("error", "Login first dude!");
-    res.redirect("back");
-  }
-};
-
-middlewareObj.checkCommentOwnership = function (req, res, next) {
-  if (req.isAuthenticated()) {
-    Comment.findById(req.params.comment_id, function (err, foundComment) {
+  },
+  checkUserComment: function (req, res, next) {
+    Comment.findById(req.params.commentId, function (err, foundComment) {
       if (err || !foundComment) {
-        req.flash("error", "Comment not found");
-        res.redirect("back");
+        console.log(err);
+        req.flash("error", "Sorry, that comment does not exist!");
+        res.redirect("/campgrounds");
+      } else if (
+        foundComment.author.id.equals(req.user._id) ||
+        req.user.isAdmin
+      ) {
+        req.comment = foundComment;
+        next();
       } else {
-        // does user own the comment?
-        if (foundComment.author.id.equals(req.user._id) || req.user.isAdmin) {
-          next();
-        } else {
-          req.flash("error", "Noup can't do so, you didn't create this dude");
-          res.redirect("back");
-        }
+        req.flash(
+          "error",
+          "Oh no you didn't!? You don't have permission to do that!"
+        );
+        res.redirect("/campgrounds/" + req.params.id);
       }
     });
-  } else {
-    req.flash("error", "Login first ...idiot");
-    res.redirect("back");
-  }
+  },
+  isAdmin: function (req, res, next) {
+    if (req.user.isAdmin) {
+      next();
+    } else {
+      req.flash(
+        "error",
+        "This site is now read only thanks to spam and trolls."
+      );
+      res.redirect("back");
+    }
+  },
+  isSafe: function (req, res, next) {
+    if (req.body.image.match(/^https:\/\/images\.unsplash\.com\/.*/)) {
+      next();
+    } else {
+      req.flash(
+        "error",
+        "Only images from images.unsplash.com allowed.\nSee https://youtu.be/Bn3weNRQRDE for how to copy image urls from unsplash."
+      );
+      res.redirect("back");
+    }
+  },
 };
-
-middlewareObj.isLoggedIn = function (req, res, next) {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  //here we add a message to a middleware that can be called from other paces/routes
-  req.flash("error", "Yo dude, you must be logged in!");
-  res.redirect("/login");
-};
-
-module.exports = middlewareObj;
