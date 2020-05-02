@@ -13,16 +13,6 @@ const commentRoutes = require("./routes/comments");
 const indexRoutes = require("./routes/index");
 const { databaseURL } = require("./config");
 
-//PURE LOCAL DB CONNECTION
-/* mongoose.set("useFindAndModify", false);
-mongoose.set("useCreateIndex", true);
-mongoose.set("useUnifiedTopology", true);
-mongoose.connect("mongodb://localhost:27017/yelp_camp", {
-  useNewUrlParser: true,
-}); */
-//REMOTE CONNECTION URL
-// const uri = "mongodb+srv://milan:jehovah1985@cluster0-cxwkp.mongodb.net/yelp_camp?retryWrites=true&w=majority";
-
 const uri = databaseURL;
 const options = {
   useNewUrlParser: true,
@@ -78,8 +68,6 @@ app.use(function (req, res, next) {
 
 app.use(indexRoutes);
 app.use("/campgrounds", campgroundsRoutes);
-//potential further refactor approach is to append the common start of the route "/campgrounds/:id/comments"
-//all routes with id require "mergeParams: true" parameter in routes
 app.use("/campgrounds/:id/comments", commentRoutes);
 
 //listener adapted to cover HEROKU and local

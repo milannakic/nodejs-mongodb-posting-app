@@ -4,19 +4,28 @@
   <% if(currentUser && currentUser.isAdmin) { %>
   <h1>You are logged as admin!</h1>
   <% } %>
+
   <header class="jumbotron">
     <div class="container">
-      <h1>Welcome To Something by MN!</h1>
+      <h2>Welcome To Something by MN!</h2>
       <p>View our hand-picked ... something</p>
       <p>
         <a class="btn btn-primary btn-large" href="/campgrounds/new"
           >Add New Stuff</a
         >
       </p>
+      <p>
+          <form action="/campgrounds" method="GET" class="form-inline" id="campground-search">
+            <div class="form-group">
+              <input type="text" name="search" placeholder="Search stuff..." class="form-control">
+            </div>
+          </form>
+      </p>
     </div>
   </header>
 
-  <!--diplay-flex and fle-wrap will make all thumbnails follow the same line but some spacing issue will remain-->
+
+  <!--display-flex and fle-wrap will make all thumbnails follow the same line but some spacing issue will remain-->
   <div class="row text-center" style="display: flex; flex-wrap: wrap;">
     <!--loop through each object of the array-->
     <% campgrounds.forEach(function(campground){ %>

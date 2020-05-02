@@ -29,8 +29,17 @@
 
     <div id="landing-header">
       <h1>Welcome to something!</h1>
-      <a href="/campgrounds" class="btn btn-lg btn-success">Sure, go ahead!</a>
+      <a href="/campgrounds" class="btn btn-lg btn-success">Sure, enter if you dare!</a>
+      <p>
+           <form action="/campgrounds" method="GET" class="form-inline">
+               <div class="form-group">
+                   <input type="text" name="search" placeholder="Campground search..." class="form-control">
+                   <input type="submit" value="Search" class="btn btn-primary">
+               </div>
+           </form>
+       </p>
     </div>
+  
 
     <ul class="slideshow">
       <li></li>
