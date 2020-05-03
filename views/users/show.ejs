@@ -11,8 +11,19 @@
           alt="user profile image"
         />
         <div class="caption">
-          <a href="mailto:<%= user.email %>"><%= user.email %></a>
+          <a href="mailto:<%= user.email %>"
+            >Send email to: <%= user.email %></a
+          >
         </div>
+        <% if(currentUser){ %>
+        <div class="caption">
+          <a href="/forgot">Reset your password?</a>
+        </div>
+        <% } else { %>
+        <div class="caption">
+          <a href="/login">Login</a>
+        </div>
+        <% } %>
       </div>
       Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error quasi
       similique architecto ad modi sunt quaerat possimus, officiis quos.

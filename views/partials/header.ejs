@@ -47,6 +47,9 @@
           >
             <a href="/login" class="nav-link">Login</a>
           </li>
+          <li class="nav-item">
+            <a href="/forgot" class="nav-link">Reset Password</a>
+          </li>
           <li
             class="nav-item <%= typeof page !== 'undefined' && page === 'register' ? 'active' : '' %>"
           >
@@ -58,6 +61,7 @@
               >Signed In As <%= currentUser.username %></a
             >
           </li>
+
           <li class="nav-item">
             <a href="/logout" class="nav-link">Logout</a>
           </li>

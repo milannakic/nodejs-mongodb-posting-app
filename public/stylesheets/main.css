@@ -108,11 +108,9 @@ body {
 }
 
 .form-signin .btn {
-  font-size: 60%;
+  font-size: 50;
   border-radius: 5rem;
-  letter-spacing: 0.1rem;
   font-weight: bold;
-  padding: 1rem;
   transition: all 0.2s;
 }
 

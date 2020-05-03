@@ -1,0 +1,26 @@
+<%- include("../partials/header") %>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+      <form action="/forgot" method="POST">
+        <legend>Forgot password or wish to change it?</legend>
+        <div class="form-group">
+          <label for="email">Enter your email to reset password:</label>
+          <input
+            type="email"
+            name="email"
+            autofocus
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <input type="submit" class="btn btn-primary" value="Confirm" />
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<%- include("../partials/footer") %>
