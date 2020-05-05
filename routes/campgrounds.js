@@ -1,9 +1,10 @@
-var express = require("express");
-var router = express.Router();
-var Campground = require("../models/campground");
-var Comment = require("../models/comment");
-var middleware = require("../middleware");
-var NodeGeocoder = require("node-geocoder");
+const express = require("express");
+const router = express.Router();
+const Campground = require("../models/campground");
+const Comment = require("../models/comment");
+const Notification = require("../models/notification");
+const middleware = require("../middleware");
+const NodeGeocoder = require("node-geocoder");
 
 var options = {
   provider: "google",
@@ -80,6 +81,7 @@ router.post("/", isLoggedIn, isSafe, function (req, res) {
     username: req.user.username,
   };
   var cost = req.body.cost;
+
   geocoder.geocode(req.body.location, function (err, data) {
     if (err || !data.length) {
       req.flash("error", "Invalid address");
