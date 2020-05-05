@@ -1,5 +1,6 @@
 var Comment = require("../models/comment");
 var Campground = require("../models/campground");
+
 module.exports = {
   isLoggedIn: function (req, res, next) {
     if (req.isAuthenticated()) {
