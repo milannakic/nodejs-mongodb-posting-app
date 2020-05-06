@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Campground = require("../models/campground");
+const User = require("../models/user");
 const Comment = require("../models/comment");
 const Notification = require("../models/notification");
 const middleware = require("../middleware");
@@ -71,7 +72,7 @@ router.get("/", function (req, res) {
 });
 
 //CREATE - add new campground to DB
-router.post("/", isLoggedIn, isSafe, function (req, res) {
+router.post("/", middleware.isLoggedIn, async function (req, res) {
   // get data from form and add to campgrounds array
   var name = req.body.name;
   var image = req.body.image;
@@ -82,35 +83,54 @@ router.post("/", isLoggedIn, isSafe, function (req, res) {
   };
   var cost = req.body.cost;
 
-  geocoder.geocode(req.body.location, function (err, data) {
+  var geocode = geocoder.geocode(req.body.location, function (err, data) {
     if (err || !data.length) {
       req.flash("error", "Invalid address");
       return res.redirect("back");
+    } else {
+      var lat = data[0].latitude;
+      var lng = data[0].longitude;
+      var location = data[0].formattedAddress;
     }
-    var lat = data[0].latitude;
-    var lng = data[0].longitude;
-    var location = data[0].formattedAddress;
-    var newCampground = {
-      name: name,
-      image: image,
-      description: desc,
-      cost: cost,
-      author: author,
-      location: location,
-      lat: lat,
-      lng: lng,
-    };
-    // Create a new campground and save to DB
-    Campground.create(newCampground, function (err, newlyCreated) {
-      if (err) {
-        console.log(err);
-      } else {
-        //redirect back to campgrounds page
-        console.log("Created new post: " + newlyCreated);
-        res.redirect("/campgrounds");
-      }
-    });
+    return lat, lng, location;
   });
+
+  var newCampground = {
+    name: name,
+    image: image,
+    description: desc,
+    cost: cost,
+    author: author,
+    location: geocode.location,
+    lat: geocode.lat,
+    lng: geocode.lng,
+  };
+
+  try {
+    let campground = await Campground.create(newCampground);
+    let user = await User.findById(req.user._id).populate("followers").exec();
+    let newNotification = {
+      username: req.user.username,
+      campgroundId: campground.id,
+    };
+    for (const follower of user.followers) {
+      let notification = await Notification.create(newNotification);
+      follower.notifications.push(notification);
+      follower.save();
+    }
+
+    //redirect back to campgrounds page
+    res.redirect("campgrounds");
+    console.log(
+      "|| Creator action,post: " +
+        campground.name +
+        " ,created by: " +
+        req.user.username
+    );
+  } catch (err) {
+    req.flash("error", err.message);
+    res.redirect("back");
+  }
 });
 
 //NEW - show form to create new campground
@@ -129,7 +149,9 @@ router.get("/:id", function (req, res) {
         req.flash("error", "Sorry, that campground does not exist!");
         return res.redirect("/campgrounds");
       }
-      console.log("Post details viewed");
+      console.log(
+        "|| Viewer action, post: " + foundCampground.name + " viewed"
+      );
       //render show template with that campground
       res.render("campgrounds/show", { campground: foundCampground });
     });

@@ -11,6 +11,7 @@ const flash = require("connect-flash");
 const methodOverride = require("method-override");
 const User = require("./models/user");
 //const seedDB = require("./seeds");
+
 const campgroundsRoutes = require("./routes/campgrounds");
 const commentRoutes = require("./routes/comments");
 const indexRoutes = require("./routes/index");
@@ -87,5 +88,5 @@ app.use("/campgrounds/:id/comments", commentRoutes);
 //listener adapted to cover HEROKU and local
 var port = process.env.PORT || 3000;
 app.listen(port, function () {
-  console.log("Our app is running on http://localhost: " + port);
+  console.log("App is running on PORT: " + port);
 });
