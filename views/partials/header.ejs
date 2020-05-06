@@ -1,111 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Something by MN</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-      crossorigin="anonymous"
-    />
-    <link rel="stylesheet" href="/stylesheets/main.css" />
-  </head>
 
-  <body>
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
-      <a class="navbar-brand" href="/">Something by MN</a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarCollapse"
-        aria-controls="navbarCollapse"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarCollapse">
-        <ul class="navbar-nav mr-auto">
-          <li
-            class="nav-item <%= typeof page !== 'undefined' && page === 'campgrounds' ? 'active' : '' %>"
-          >
-            <a href="/campgrounds" class="nav-link">Home</a>
-          </li>
-        </ul>
-        <ul class="navbar-nav">
-          <% if(!currentUser){ %>
-          <li
-            class="nav-item <%= typeof page !== 'undefined' && page === 'login' ? 'active' : '' %>"
-          >
-            <a href="/login" class="nav-link">Login</a>
-          </li>
-          <li class="nav-item">
-            <a href="/forgot" class="nav-link">Reset Password</a>
-          </li>
-          <li
-            class="nav-item <%= typeof page !== 'undefined' && page === 'register' ? 'active' : '' %>"
-          >
-            <a href="/register" class="nav-link">Sign Up</a>
-          </li>
-          <% } else { %>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Something by MN</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+  <link rel="stylesheet" href="/stylesheets/main.css" />
+</head>
 
-          <div class="btn-group">
-            <button type="button" class="btn btn-secondary btn-sm">
-              Notifications
-              <span class="badge"><%= notifications.length %></span>
-            </button>
-            <button
-              type="button"
-              class="btn btn-secondary btn-sm dropdown-toggle dropdown-toggle-split"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              <span class="sr-only">Toggle Dropdown</span>
-            </button>
-            <div class="dropdown-menu">
-              <a class="dropdown-item" href="/notifications"
-                >View past notifications</a
-              >
-              <% notifications.forEach(function(notification) { %>
-              <li>
-                <a href="/notifications/<%= notification.id %>">
-                  <%= notification.username %> created a new campground
-                </a>
-              </li>
-              <% }); %>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Placeholder 1</a>
-            </div>
+<body>
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+    <a class="navbar-brand" href="/">Something by MN</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+      aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item <%= typeof page !== 'undefined' && page === 'campgrounds' ? 'active' : '' %>">
+          <a href="/campgrounds" class="nav-link">Home</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav">
+        <% if(!currentUser){ %>
+        <li class="nav-item <%= typeof page !== 'undefined' && page === 'login' ? 'active' : '' %>">
+          <a href="/login" class="nav-link">Login</a>
+        </li>
+        <li class="nav-item">
+          <a href="/forgot" class="nav-link">Reset Password</a>
+        </li>
+        <li class="nav-item <%= typeof page !== 'undefined' && page === 'register' ? 'active' : '' %>">
+          <a href="/register" class="nav-link">Sign Up</a>
+        </li>
+        <% } else { %>
+
+        <div class="btn-group">
+          <button type="button" class="btn btn-secondary btn-sm">
+            Notifications
+            <span class="badge"><%= notifications.length %></span>
+          </button>
+          <button type="button" class="btn btn-secondary btn-sm dropdown-toggle dropdown-toggle-split"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="sr-only">Toggle Dropdown</span>
+          </button>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="/notifications">View past notifications</a>
+            <% notifications.forEach(function(notification) { %>
+            <li>
+              <a href="/notifications/<%= notification.id %>"> - New post by:
+                <%= notification.username %>
+              </a>
+            </li>
+            <% }); %>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Placeholder 1</a>
           </div>
-          <li class="nav-item">
-            <a href="#" class="nav-link"
-              >Signed In As <%= currentUser.username %></a
-            >
-          </li>
-          <li class="nav-item">
-            <a href="/logout" class="nav-link">Logout</a>
-          </li>
-          <% } %>
-        </ul>
-      </div>
-    </nav>
-
-    <div class="container">
-      <% if(error && error.length > 0) { %>
-      <div class="alert alert-danger" role="alert"><%=error %></div>
-      <% } %> <% if(success && success.length > 0) { %>
-      <div class="alert alert-success" role="alert"><%= success %></div>
-      <% } %>
+        </div>
+        <li class="nav-item">
+          <a href="#" class="nav-link">Signed In As <%= currentUser.username %></a>
+        </li>
+        <li class="nav-item">
+          <a href="/logout" class="nav-link">Logout</a>
+        </li>
+        <% } %>
+      </ul>
     </div>
-    <div class="container"></div>
-  </body>
+  </nav>
+
+  <div class="container">
+    <% if(error && error.length > 0) { %>
+    <div class="alert alert-danger" role="alert"><%=error %></div>
+    <% } %> <% if(success && success.length > 0) { %>
+    <div class="alert alert-success" role="alert"><%= success %></div>
+    <% } %>
+  </div>
+  <div class="container"></div>
+</body>
+
 </html>
