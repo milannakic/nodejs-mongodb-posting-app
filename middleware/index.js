@@ -1,5 +1,6 @@
 var Comment = require("../models/comment");
 var Campground = require("../models/campground");
+var User = require("../models/user");
 
 module.exports = {
   isLoggedIn: function (req, res, next) {
@@ -24,6 +25,21 @@ module.exports = {
       } else {
         req.flash("error", "Dude, you don't have permission to do that!");
         res.redirect("/campgrounds/" + req.params.id);
+      }
+    });
+  },
+  isProfileOwner: function (req, res, next) {
+    User.findById(req.params.id, function (err, foundUser) {
+      if (err || !foundUser) {
+        console.log(err);
+        req.flash("error", "Sorry, that user does not exist!");
+        res.redirect("/campgrounds");
+      } else if (req.user._id.equals(foundUser.id) || req.user.isAdmin) {
+        req.user = foundUser;
+        next();
+      } else {
+        req.flash("error", "Forbidden, you are not this user");
+        res.redirect("/campgrounds");
       }
     });
   },

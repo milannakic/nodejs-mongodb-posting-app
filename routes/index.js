@@ -8,6 +8,7 @@ const async = require("async");
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
 var { isLoggedIn } = require("../middleware");
+var { isProfileOwner } = require("../middleware");
 
 //root route
 router.get("/", function (req, res) {
@@ -242,6 +243,35 @@ router.get("/users/:id", async function (req, res) {
     req.flash("error", err.message);
     return res.redirect("back");
   }
+});
+
+// edit profile route
+router.get("/users/:id/edit", isLoggedIn, isProfileOwner, async function (
+  req,
+  res
+) {
+  try {
+    let user = await User.findById(req.params.id);
+    res.render("users/edit", { user });
+  } catch (err) {
+    req.flash("error", err.message);
+    res.redirect("back");
+  }
+});
+
+// update / PUT user
+router.put("/users/:id", isLoggedIn, isProfileOwner, function (req, res) {
+  User.findByIdAndUpdate(req.params.id, req.body.user, function (
+    err,
+    updatedUser
+  ) {
+    if (err) {
+      req.flash("error", err.message);
+      res.redirect("back");
+    } else {
+      res.redirect("/users/" + req.params.id);
+    }
+  });
 });
 
 // follow user

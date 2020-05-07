@@ -3,69 +3,36 @@
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-md-12 text-center">
-      <h1>Create a New Campground</h1>
+      <h1>Create a New Post</h1>
     </div>
     <div class="col-xs-12 col-md-6 col-lg-4">
       <form action="/campgrounds" method="POST">
         <div class="form-group">
           <label for="name">Name</label>
-          <input
-            class="form-control"
-            type="text"
-            name="name"
-            id="name"
-            placeholder="Enter some name"
-          />
+          <input class="form-control" type="text" name="name" id="name" placeholder="Enter some name" />
         </div>
         <div class="form-group">
           <label for="image">Image Url</label>
-          <input
-            class="form-control"
-            type="text"
-            name="image"
-            id="image"
-            pattern="^https:\/\/images\.unsplash\.com\/.*"
+          <input class="form-control" type="text" name="image" id="image" pattern="^https:\/\/images\.unsplash\.com\/.*"
             title="Only images from images.unsplash.com allowed. See link below for instructions."
-            placeholder="https://images.unsplash.com/..."
-            required
-          />
-          <small
-            >Click <a href="https://youtu.be/Bn3weNRQRDE">here</a> for tutorial
-            on how to copy unsplash urls.</small
-          >
+            placeholder="https://images.unsplash.com/..." required />
+          <small>Click <a href="https://youtu.be/Bn3weNRQRDE">here</a> for tutorial
+            on how to copy unsplash urls.</small>
         </div>
         <div class="form-group">
           <label for="cost">Cost</label>
-          <input
-            class="form-control"
-            type="number"
-            name="cost"
-            id="cost"
-            placeholder="like 9.99"
-            step="0.01"
-            min="0"
-            required
-          />
+          <input class="form-control" type="number" name="cost" id="cost" placeholder="like 9.99" step="0.01" min="0"
+            required />
         </div>
         <div class="form-group">
           <label for="location">Location</label>
-          <input
-            class="form-control"
-            type="text"
-            name="location"
-            id="location"
-            placeholder="example: Sutomore, Montenegro"
-          />
+          <input class="form-control" type="text" name="location" id="location"
+            placeholder="example: Sutomore, Montenegro" />
         </div>
         <div class="form-group">
           <label for="description">Description</label>
-          <input
-            class="form-control"
-            type="text"
-            name="description"
-            id="description"
-            placeholder="enter some description"
-          />
+          <input class="form-control" type="text" name="description" id="description"
+            placeholder="enter some description" />
         </div>
         <div class="form-group">
           <button class="btn btn-lg btn-primary btn-block">Submit!</button>

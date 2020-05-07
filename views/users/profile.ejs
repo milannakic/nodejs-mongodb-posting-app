@@ -5,22 +5,17 @@
     <div class="col-md-4">
       <h3>USER PROFILE: <%= user.firstName + " " + user.lastName %></h3>
       <p></p>
-      <a href="/follow/<%= user.id %>"
-        ><button class="btn btn-primary">Follow <%= user.username %></button></a
-      >
+      <a href="/follow/<%= user.id %>"><button class="btn btn-primary">Follow <%= user.username %></button></a>
       </p>
       <div class="thumbnail">
-        <img
-          class="rounded"
-          src="<%= user.avatar %>"
-          alt="user profile image"
-        />
+        <img class="rounded" src="<%= user.avatar %>" alt="user profile image" />
         <div class="caption">
-          <a href="mailto:<%= user.email %>"
-            >Send email to: <%= user.email %></a
-          >
+          <a href="mailto:<%= user.email %>">Send email to: <%= user.email %></a>
         </div>
-        <% if(currentUser){ %>
+        <% if(currentUser && currentUser._id.equals(user.id)){ %>
+        <div class="caption">
+          <a href="/users/<%= user.id %>/edit">Edit your profile?</a>
+        </div>
         <div class="caption">
           <a href="/forgot">Reset your password?</a>
         </div>

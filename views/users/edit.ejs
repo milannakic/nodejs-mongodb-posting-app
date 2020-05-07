@@ -1,0 +1,29 @@
+<%- include("../partials/header") %>
+
+<div class="row justify-content-center">
+    <div class="col-md-12 text-center">
+        <h1><%=user.firstName %> edit your profile</h1>
+    </div>
+    <div class="col-xs-12 col-md-6 col-lg-4">
+        <form action="/users/<%= user._id %>?_method=PUT" method="POST">
+            <div class="form-group">
+                <input class="form-control" type="text" value="<%=user.firstName %>" name="user[firstName]"
+                    placeholder="text" />
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="text" value="<%=user.lastName %>" name="user[lastName]"
+                    placeholder="text" />
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="text" value="<%=user.avatar %>" name="user[avatar]"
+                    placeholder="text" />
+            </div>
+            <div class="form-group">
+                <button class="btn btn-lg btn-primary btn-block">Submit!</button>
+            </div>
+        </form>
+        <a href="/users/<%=user._id%>">Go Back</a>
+    </div>
+</div>
+
+<%- include("../partials/footer") %>
