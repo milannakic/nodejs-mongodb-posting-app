@@ -83,7 +83,15 @@ router.post("/", middleware.isLoggedIn, async function (req, res) {
   };
   var cost = req.body.cost;
 
-  var geoResults = await geocoder.geocode(req.body.location);
+  var geoResults = await geocoder.geocode(req.body.location, function (
+    err,
+    data
+  ) {
+    if (err || !data.length) {
+      req.flash("error", "Invalid address, try entering again");
+      return res.redirect("back");
+    }
+  });
 
   var newCampground = {
     name: name,
