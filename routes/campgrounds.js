@@ -197,7 +197,7 @@ router.put("/:id", isSafe, function (req, res) {
 
 // DELETE - removes campground and its comments from the database
 router.delete("/:id", isLoggedIn, checkUserCampground, function (req, res) {
-  Comment.remove(
+  Comment.deleteOne(
     {
       _id: {
         $in: req.campground.comments,
@@ -208,12 +208,18 @@ router.delete("/:id", isLoggedIn, checkUserCampground, function (req, res) {
         req.flash("error", err.message);
         res.redirect("/");
       } else {
-        req.campground.remove(function (err) {
+        req.campground.deleteOne(function (err) {
           if (err) {
             req.flash("error", err.message);
             return res.redirect("/");
           }
           req.flash("error", "Campground deleted!");
+          console.log(
+            "|| Delete action, user: " +
+              req.user.username +
+              " deleted post: " +
+              req.campground.name
+          );
           res.redirect("/campgrounds");
         });
       }
