@@ -6,36 +6,38 @@
   <% } %>
 
   <header class="jumbotron">
-         <div class="container">
-             <h1><span class="glyphicon glyphicon-tent"></span> Welcome To Something by MN!</h1>
-             <p>View our hand-picked ....something</p>
-             <p>
-                <a class="btn btn-primary btn-lg" href="/campgrounds/new">Add New Post</a>
-             </p>
-              <p>
-              <form action="/campgrounds" method="GET" class="form-inline" id="campground-search">
-                <div class="form-group">
-                  <input type="text" name="search" placeholder="Search posts..." class="form-control">
-                </div>
-              </form>
-             </p>
-         </div>
-     </header>
-     
-     <div class="row text-center" id="campground-grid">
-        <% campgrounds.forEach(function(campground){ %>
-            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                <div class="card">
-                  <img class="card-img-top" src="<%= campground.image %>" alt="<%= campground.name %>">
-                  <div class="card-body">
-                    <h5 class="card-title"><%= campground.name %></h5>
-                    <a href="/campgrounds/<%= campground._id %>" class="btn btn-primary">More Info</a>
-                  </div>
-                </div>
-            </div>
-        <% }); %>
+    <div class="container">
+      <h1><span class="glyphicon glyphicon-tent"></span> Welcome To Something by MN!</h1>
+      <p>View our hand-picked ....something</p>
+      <p>
+        <a class="btn btn-primary btn-lg" href="/campgrounds/new">Add New Post</a>
+      </p>
+      <p>
+      <form action="/campgrounds" method="GET" class="form-inline" id="campground-search">
+        <div class="form-group">
+          <input type="text" name="search" placeholder="Search posts..." class="form-control">
+        </div>
+      </form>
+      </p>
     </div>
+  </header>
+
+  <div class="row text-center" id="campground-grid">
+    <% campgrounds.forEach(function(campground){ %>
+    <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+      <div class="card">
+        <a href="/campgrounds/<%= campground._id %>">
+          <img class="card-img-top" src="<%= campground.image %>" alt="<%= campground.name %>">
+        </a>
+        <div class="card-body">
+          <h5 class="card-title"><%= campground.name %></h5>
+          <a href="/campgrounds/<%= campground._id %>" class="btn btn-primary btn-sm">More Info</a>
+        </div>
+      </div>
+    </div>
+    <% }); %>
   </div>
+</div>
 </div>
 
 <%- include("../partials/footer") %>

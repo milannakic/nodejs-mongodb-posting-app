@@ -2,6 +2,21 @@
   padding: 1em;
 }
 
+.card-img-top {
+  width: 100%;
+  height: 25vmax;
+  object-fit: cover;
+}
+
+.card-body {
+  height: 10%;
+  padding: 0.15rem;
+}
+
+.card-title {
+  margin-bottom: 0.25;
+}
+
 .form-signin {
   width: 100%;
   max-width: 330px;
