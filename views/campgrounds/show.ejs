@@ -7,40 +7,26 @@
     </div>
     <div class="col-md-9">
       <div class="card mb-3">
-        <img
-          class="card-img-top"
-          src="<%= campground.image %>"
-          alt="<%= campground.name %>"
-        />
+        <img class="card-img-top" src="<%= campground.image %>" alt="<%= campground.name %>" />
         <div class="card-body">
           <p class="float-right">
+            <strong>Cost: </strong>
             $<%= campground.cost %>/night
           </p>
           <h5 class="card-title">Name: <%= campground.name %></h5>
           <p></p>
           <h6 class="card-title">Location: <%= campground.location %></h6>
           <p>
-            <em
-              >Submitted by:
-              <a href="/users/<%= campground.author.id %>"
-                ><%= campground.author.username %></a
-              >
+            <em>Submitted by:
+              <a href="/users/<%= campground.author.id %>"><%= campground.author.username %></a>
             </em>
           </p>
           <hr />
-          <p class="card-text"><%= campground.description %></p>
+          <p class="card-text"><strong>Description:</strong> <%= campground.description %></p>
           <% if(currentUser && campground.author.id.equals(currentUser._id) ||
           currentUser && currentUser.isAdmin){ %>
-          <a
-            class="btn btn-warning"
-            href="/campgrounds/<%= campground._id %>/edit"
-            >Edit</a
-          >
-          <form
-            action="/campgrounds/<%= campground._id %>?_method=DELETE"
-            method="POST"
-            class="delete-form"
-          >
+          <a class="btn btn-warning" href="/campgrounds/<%= campground._id %>/edit">Edit</a>
+          <form action="/campgrounds/<%= campground._id %>?_method=DELETE" method="POST" class="delete-form">
             <button class="btn btn-danger">Delete</button>
           </form>
           <% } %>
@@ -49,11 +35,7 @@
       <div class="card">
         <div class="card-body">
           <div class="text-right">
-            <a
-              class="btn btn-success"
-              href="/campgrounds/<%= campground._id %>/comments/new"
-              >Add New Comment</a
-            >
+            <a class="btn btn-success" href="/campgrounds/<%= campground._id %>/comments/new">Add New Comment</a>
           </div>
           <hr />
           <div class="row">
@@ -72,16 +54,11 @@
                     comment.author.id.equals(currentUser._id) || currentUser &&
                     currentUser.isAdmin){ %>
                     <div class="float-right">
-                      <a
-                        href="/campgrounds/<%=campground._id%>/comments/<%=comment._id%>/edit"
-                        class="btn btn-sm btn-warning"
-                        >EDIT</a
-                      >
-                      <form
-                        class="delete-form"
+                      <a href="/campgrounds/<%=campground._id%>/comments/<%=comment._id%>/edit"
+                        class="btn btn-sm btn-warning">EDIT</a>
+                      <form class="delete-form"
                         action="/campgrounds/<%=campground._id%>/comments/<%=comment._id%>?_method=DELETE"
-                        method="POST"
-                      >
+                        method="POST">
                         <button class="btn btn-sm btn-danger">DELETE</button>
                       </form>
                     </div>
@@ -102,11 +79,11 @@
   function initMap() {
     var lat = <%= campground.lat %>;
     var lng = <%= campground.lng %>;
-    var center = {lat: lat, lng: lng };
+    var center = { lat: lat, lng: lng };
     var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 8,
-        center: center,
-        scrollwheel: false
+      zoom: 8,
+      center: center,
+      scrollwheel: false
     });
     var contentString = `
       <strong><%= campground.name %><br />
@@ -117,19 +94,16 @@
       content: contentString
     });
     var marker = new google.maps.Marker({
-        position: center,
-        map: map
+      position: center,
+      map: map
     });
-    marker.addListener('click', function() {
+    marker.addListener('click', function () {
       infowindow.open(map, marker);
     });
   }
 </script>
 
-<script
-  async
-  defer
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZ0ucvp0A5HTVPIMS5jAF0wCZ99lEsBM8&callback=initMap"
-></script>
+<script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZ0ucvp0A5HTVPIMS5jAF0wCZ99lEsBM8&callback=initMap"></script>
 
 <%- include("../partials/footer") %>

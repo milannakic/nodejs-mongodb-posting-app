@@ -3,7 +3,7 @@
 <div class="container">
   <div class="row">
     <div class="col-md-4">
-      <h3>USER PROFILE: <%= user.firstName + " " + user.lastName %></h3>
+      <h4>USER PROFILE: <%= user.firstName + " " + user.lastName %></h4>
       <p></p>
       <a href="/follow/<%= user.id %>"><button class="btn btn-primary">Follow <%= user.username %></button></a>
       </p>
@@ -12,14 +12,14 @@
         <div class="caption">
           <a href="mailto:<%= user.email %>">Send email to: <%= user.email %></a>
         </div>
-        <% if(currentUser && currentUser._id.equals(user.id)){ %>
+        <% if(currentUser && currentUser._id.equals(user.id) || currentUser && currentUser.isAdmin){ %>
         <div class="caption">
           <a href="/users/<%= user.id %>/edit">Edit your profile?</a>
         </div>
         <div class="caption">
           <a href="/forgot">Reset your password?</a>
         </div>
-        <% } else { %>
+        <% } else if (!currentUser) { %>
         <div class="caption">
           <a href="/login">Login</a>
         </div>
@@ -28,7 +28,7 @@
       Lorem ipsum
     </div>
     <div class="col-md-8">
-      <h3><%= user.username %>'s entries:</h3>
+      <h4><%= user.username %>'s entries:</h4>
       <ul>
         <% campgrounds.forEach(function(campground) { %>
         <li>
