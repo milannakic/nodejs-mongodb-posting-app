@@ -4,8 +4,8 @@
   <div class="row">
     <div class="col-md-4">
       <h4>USER PROFILE: <%= user.firstName + " " + user.lastName %></h4>
-      <p></p>
-      <a href="/follow/<%= user.id %>"><button class="btn btn-primary">Follow <%= user.username %></button></a>
+      <p>
+        <a href="/follow/<%= user.id %>"><button class="btn btn-primary">Follow <%= user.username %></button></a>
       </p>
       <div class="thumbnail">
         <img class="rounded" src="<%= user.avatar %>" alt="user profile image" />
