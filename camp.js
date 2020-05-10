@@ -10,11 +10,13 @@ const LocalStrategy = require("passport-local");
 const flash = require("connect-flash");
 const methodOverride = require("method-override");
 const User = require("./models/user");
+const Campground = require("./models/campground");
+const Comment = require("./models/comment");
 //const seedDB = require("./seeds");
 
+const indexRoutes = require("./routes/index");
 const campgroundsRoutes = require("./routes/campgrounds");
 const commentRoutes = require("./routes/comments");
-const indexRoutes = require("./routes/index");
 
 const uri = process.env.DATABASEURL;
 const options = {

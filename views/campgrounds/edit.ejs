@@ -9,7 +9,7 @@
       <form action="/campgrounds/<%=campground._id%>?_method=PUT" method="POST" enctype="multipart/form-data">
         <div class="form-group">
           <label for="name">Name</label>
-          <input class="form-control" type="text" name="name" id="name" value="<%= campground.name %>" />
+          <input class="form-control" type="text" name="campground[name]" id="name" value="<%= campground.name %>" />
         </div>
         <div class="form-group">
           <label for="currentImage">Current Image</label>
@@ -17,12 +17,12 @@
         </div>
         <div class="form-group">
           <label for="image">Upload new image</label>
-          <input type="file" id="image" name="image" accept="image/*" required>
+          <input type="file" id="image" name="image" accept="image/*">
         </div>
         <div class="form-group">
           <label for="cost">Cost</label>
-          <input class="form-control" type="number" name="cost" id="cost" value="<%= campground.cost %>" step="0.01"
-            min="0" required />
+          <input class="form-control" type="number" name="campground[cost]" id="cost" value="<%= campground.cost %>"
+            step="0.01" min="0" required />
         </div>
         <div class="form-group">
           <label for="location">Location</label>
@@ -30,11 +30,11 @@
         </div>
         <div class="form-group">
           <label for="description">Description</label>
-          <input class="form-control" type="text" name="description" id="description"
+          <input class="form-control" type="text" name="campground[description]" id="description"
             value="<%= campground.description %>" />
         </div>
         <div class="form-group">
-          <button class="btn btn-lg btn-primary btn-block">Update!</button>
+          <button class="btn btn-lg btn-primary btn-block">Update <%= campground.name %>!</button>
         </div>
       </form>
       <a href="/campgrounds">Go Back</a>
