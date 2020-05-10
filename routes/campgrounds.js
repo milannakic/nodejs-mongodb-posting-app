@@ -135,50 +135,70 @@ router.post("/", middleware.isLoggedIn, upload.single("image"), function (
   });
 });
 
-/* work on this and make it work as it will not allow 2 awaits, 1 for geocoder and 1 for cloudinary)
+// Error: UnhandledPromiseRejectionWarning: ParallelSaveError: Can't save() the same doc multiple times in parallel.
 //CREATE - add new campground to DB
-router.post("/", middleware.isLoggedIn, upload.single("image"), async function (req,res) {
-  // get data from form and add to campgrounds array
-  var name = req.body.name;
-  var desc = req.body.description;
-  var author = {id: req.user._id,username: req.user.username,};
-  var cost = req.body.cost;
-  var geoResults = await geocoder.geocode(req.body.location, function (err,data) {
-    if (err || !data.length) {
-      req.flash("error", "Invalid address, try entering again");
-      return res.redirect("back"); }});
-  var cloudinaryResult = await cloudinary.uploader.upload(req.file.path, function (err, result) {
-      if (err || !result) {
-        req.flash("error", "An error occurred or invalid imag type");
-        return res.redirect("back"); } } );
-  var newCampground = {
-    name: name,
-    image: cloudinaryResult.secure_url,
-    description: desc,
-    cost: cost,
-    author: author,
-    location: geoResults[0].formattedAddress,
-    lat: geoResults[0].latitude,
-    lng: geoResults[0].longitude,
-  };
- try {
-    let campground = await Campground.create(newCampground);
-    let user = await User.findById(req.user._id).populate("followers").exec();
-    let newNotification = {
-      username: req.user.username,
-      campgroundId: campground.id    };
-    for (const follower of user.followers) {
-      let notification = await Notification.create(newNotification);
-      follower.notifications.push(notification);
-      follower.save();
-    }
-    //redirect back to campgrounds page
-    res.redirect("campgrounds");
-    console.log( "|| Creator action,post: " + campground.name + " ,created by: " + req.user.username);
-  } catch (err) {
-    req.flash("error", err.message);
-    res.redirect("back");  } });
-    */
+// router.post("/", middleware.isLoggedIn, upload.single("image"), async function (
+//   req,
+//   res
+// ) {
+//   // get data from form and add to campgrounds array
+//   var name = req.body.name;
+//   var desc = req.body.description;
+//   var author = { id: req.user._id, username: req.user.username };
+//   var cost = req.body.cost;
+//   var geoResults = await geocoder.geocode(req.body.location, function (
+//     err,
+//     data
+//   ) {
+//     if (err || !data.length) {
+//       req.flash("error", "Invalid address, try entering again");
+//       return res.redirect("back");
+//     }
+//   });
+//   var cloudinaryResult = await cloudinary.uploader.upload(
+//     req.file.path,
+//     function (err, result) {
+//       if (err || !result) {
+//         req.flash("error", "An error occurred or invalid imag type");
+//         return res.redirect("back");
+//       }
+//     }
+//   );
+//   var newCampground = {
+//     name: name,
+//     image: cloudinaryResult.secure_url,
+//     description: desc,
+//     cost: cost,
+//     author: author,
+//     location: geoResults[0].formattedAddress,
+//     lat: geoResults[0].latitude,
+//     lng: geoResults[0].longitude,
+//   };
+//   try {
+//     let campground = await Campground.create(newCampground);
+//     let user = await User.findById(req.user._id).populate("followers").exec();
+//     let newNotification = {
+//       username: req.user.username,
+//       campgroundId: campground.id,
+//     };
+//     for (const follower of user.followers) {
+//       let notification = await Notification.create(newNotification);
+//       follower.notifications.push(notification);
+//       follower.save();
+//     }
+//     //redirect back to campgrounds page
+//     res.redirect("campgrounds");
+//     console.log(
+//       "|| Creator action,post: " +
+//         campground.name +
+//         " ,created by: " +
+//         req.user.username
+//     );
+//   } catch (err) {
+//     req.flash("error", err.message);
+//     res.redirect("back");
+//   }
+// });
 
 //NEW - show form to create new campground
 router.get("/new", isLoggedIn, function (req, res) {
