@@ -35,7 +35,11 @@
       Lorem ipsum
     </div>
     <div class="col-md-8">
+      <% if(currentUser && currentUser._id.equals(user.id)){ %>
+      <h4>My entries:</h4>
+      <% } else { %>
       <h4><%= user.username %>'s entries:</h4>
+      <% } %>
       <ul>
         <% campgrounds.forEach(function(campground) { %>
         <li>
