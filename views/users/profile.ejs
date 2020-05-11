@@ -9,19 +9,26 @@
       </p>
       <div class="thumbnail">
         <img class="rounded" src="<%= user.avatar %>" alt="user profile image" />
-        <div class="caption">
-          <a href="mailto:<%= user.email %>">Send email to: <%= user.email %></a>
-        </div>
-        <% if(currentUser && currentUser._id.equals(user.id) || currentUser && currentUser.isAdmin){ %>
+        <% if(currentUser && currentUser._id.equals(user.id)){ %>
         <div class="caption">
           <a href="/users/<%= user.id %>/edit">Edit your profile?</a>
         </div>
         <div class="caption">
           <a href="/forgot">Reset your password?</a>
         </div>
+        <% } else if (currentUser && currentUser.isAdmin) { %>
+        <div class="caption">
+          <a href="/users/<%= user.id %>/edit">Edit this profile?</a>
+        </div>
+        <div class="caption">
+          <a href="/forgot">Reset this user's password?</a>
+        </div>
         <% } else if (!currentUser) { %>
         <div class="caption">
           <a href="/login">Login</a>
+        </div>
+        <div class="caption">
+          <a href="mailto:<%= user.email %>">Send email to: <%= user.email %></a>
         </div>
         <% } %>
       </div>
