@@ -9,6 +9,9 @@ const nodemailer = require("nodemailer");
 const crypto = require("crypto");
 var { isLoggedIn } = require("../middleware");
 var { isProfileOwner } = require("../middleware");
+// require sendgrid/mail
+const sgMail = require("@sendgrid/mail");
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 //root route
 router.get("/", function (req, res) {
@@ -314,6 +317,49 @@ router.get("/notifications/:id", isLoggedIn, async function (req, res) {
     res.redirect(`/campgrounds/${notification.campgroundId}`);
   } catch (err) {
     req.flash("error", err.message);
+    res.redirect("back");
+  }
+});
+
+// GET /contact
+router.get("/contact", isLoggedIn, (req, res) => {
+  res.render("contact");
+});
+
+// POST /contact
+router.post("/contact", async (req, res) => {
+  let { name, email, message } = req.body;
+  name = req.sanitize(name);
+  email = req.sanitize(email);
+  message = req.sanitize(message);
+  const msg = {
+    to: "milan.nakic@gmail.com",
+    from: "milan.nakic@gmail.com",
+    subject: `Something By MN Contact Form, sender: ${name}`,
+    text: message,
+    html: `<h4>Hi there, this email is from, ${name}</h4>
+    <br>
+    <p> Sender email address: ${email}, </p>
+    <br>
+    <p>Message text: ${message}</p>
+    `,
+  };
+  try {
+    await sgMail.send(msg);
+    req.flash(
+      "success",
+      "Thank you for your email, we will get back to you shortly."
+    );
+    res.redirect("/contact");
+    console.log(
+      "|| Contact form used by user: " + name + " ,email address: " + email
+    );
+  } catch (error) {
+    console.error(error);
+    if (error.response) {
+      console.error(error.response.body);
+    }
+    req.flash("error", "Sorry, something went wrong, please contact Milan");
     res.redirect("back");
   }
 });

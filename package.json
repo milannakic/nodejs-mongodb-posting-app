@@ -13,6 +13,7 @@
   "author": "MN",
   "license": "ISC",
   "dependencies": {
+    "@sendgrid/mail": "^7.1.1",
     "async": "^3.2.0",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.19.0",
@@ -22,6 +23,7 @@
     "dotenv": "^8.2.0",
     "ejs": "^3.0.1",
     "express": "^4.17.1",
+    "express-sanitizer": "^1.0.5",
     "express-session": "^1.17.0",
     "locus": "^2.0.4",
     "method-override": "^3.0.0",

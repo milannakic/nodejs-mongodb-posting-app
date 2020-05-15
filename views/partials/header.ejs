@@ -15,7 +15,7 @@
 
 <body>
   <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
-    <a class="navbar-brand" href="/">Something by MN</a>
+    <a class="navbar-brand" href="/">Landing Page</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
       aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -38,7 +38,9 @@
           <a href="/register" class="nav-link">Sign Up</a>
         </li>
         <% } else { %>
-
+        <li class="nav-item">
+          <a href="/contact" class="nav-link">Contact Us</a>
+        </li>
         <div class="btn-group">
           <button type="button" class="btn btn-secondary btn-sm">
             Notifications
@@ -49,6 +51,7 @@
             <span class="sr-only">Toggle Dropdown</span>
           </button>
           <div class="dropdown-menu">
+            <a class="dropdown-item" href="/notifications">View past notifications</a>
             <% notifications.forEach(function(notification) { %>
             <li>
               <a href="/notifications/<%= notification.id %>"> --- New post by:
@@ -57,7 +60,7 @@
             </li>
             <% }); %>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="/notifications">View past notifications</a>
+            <a class="dropdown-item" href="#">Placeholder 1</a>
           </div>
         </div>
         <li class="nav-item">

@@ -12,6 +12,7 @@ const methodOverride = require("method-override");
 const User = require("./models/user");
 const Campground = require("./models/campground");
 const Comment = require("./models/comment");
+const expressSanitizer = require("express-sanitizer");
 //const seedDB = require("./seeds");
 
 const indexRoutes = require("./routes/index");
@@ -47,6 +48,9 @@ app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
 app.use(cookieParser("secret"));
 app.locals.moment = require("moment");
+
+// Mount express-sanitizer middleware here
+app.use(expressSanitizer());
 //seedDB();
 
 //PASSPORT CONFIG
