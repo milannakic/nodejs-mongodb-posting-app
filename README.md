@@ -24,12 +24,14 @@ Contact form for existing users via Twilio SendGrid API
 # Getting Started
 Follow the instructions below to set up the environment and run this project on your local machine.
 
-1. ```Clone this repository.
+1. Clone this repository.
+```
 
 2. Install dependencies via NPM or Yarn
+```
 
 3. create a .env file and provide following:
-ADMIN_CODE,
+```ADMIN_CODE,
 DATABASEURL,
 GMAILPW (or change it completely to a different mailing service)
 GEOCODER_API_KEY,
