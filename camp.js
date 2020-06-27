@@ -15,6 +15,7 @@ const Comment = require("./models/comment");
 const expressSanitizer = require("express-sanitizer");
 //const seedDB = require("./seeds");
 
+//routes
 const indexRoutes = require("./routes/index");
 const campgroundsRoutes = require("./routes/campgrounds");
 const commentRoutes = require("./routes/comments");
