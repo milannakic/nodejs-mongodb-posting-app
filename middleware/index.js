@@ -86,4 +86,20 @@ module.exports = {
       res.redirect("back");
     }
   },
+  isNotVerified: async function (req, res, next) {
+    try {
+      const user = await User.findOne({ username: req.body.username });
+      if (user.isVerified) {
+        return next();
+      }
+      req.flash(
+        "error",
+        "Your account has not been verified. Please check your email for the verification email."
+      );
+      return res.redirect("/campgrounds");
+    } catch (err) {
+      console.log(err);
+      req.flash("error", "Something went wrong, please contact support.");
+    }
+  },
 };

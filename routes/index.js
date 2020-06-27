@@ -9,8 +9,10 @@ const nodemailer = require("nodemailer");
 const crypto = require("crypto");
 var { isLoggedIn } = require("../middleware");
 var { isProfileOwner } = require("../middleware");
+var { isNotVerified } = require("../middleware");
 // require sendgrid/mail
 const sgMail = require("@sendgrid/mail");
+const user = require("../models/user");
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 //root route
@@ -25,29 +27,82 @@ router.get("/register", function (req, res) {
   res.render("users/register", { page: "register" });
 });
 
-//handle signup logic
+//handle signup / register logic
 //we first create a new user and then check and login that new user
-router.post("/register", function (req, res) {
+router.post("/register", async function (req, res) {
   var newUser = new User({
     username: req.body.username,
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     email: req.body.email,
+    emailToken: crypto.randomBytes(64).toString("hex"),
+    isVerified: false,
     avatar: req.body.avatar,
   });
   if (req.body.adminCode === process.env.ADMIN_CODE) {
     newUser.isAdmin = true;
   }
-  User.register(newUser, req.body.password, function (err, newlyCreatedUser) {
+  User.register(newUser, req.body.password, async function (err, user) {
     if (err) {
+      console.log(err);
       req.flash("error", err.message);
-      return res.render("users/register");
+      return res.render("/register");
     }
-    passport.authenticate("local")(req, res, function () {
-      req.flash("success", "Welcome to something " + newlyCreatedUser.username);
+    const msg = {
+      from: "milan.nakic@gmail.com",
+      to: user.email,
+      subject: "Something by MN - verify your email",
+      text: `
+       Hi,
+       thanks for registering.
+       Please verify your email by copying and pasting the address below.
+       http://${req.headers.host}/verify-email?token=${user.emailToken}
+      `,
+      html: `
+      <h1>Hello,</h1>
+      <p>thanks for registering.</p>
+      <p>Please verify your email by copying and pasting the address below.</p>
+      <a href="http://${req.headers.host}/verify-email?token=${user.emailToken}">Verify your email</a>
+      `,
+    };
+    try {
+      await sgMail.send(msg);
+      req.flash(
+        "success",
+        "Thanks for registering. Please check your email to verify your email"
+      );
+      res.redirect("/");
+    } catch (error) {
+      console.log(error);
+      req.flash("error", error.message);
       res.redirect("/campgrounds");
-    });
+    }
   });
+});
+
+// Email verification route
+router.get("/verify-email", async (req, res, next) => {
+  try {
+    const user = await User.findOne({ emailToken: req.query.token });
+    if (!user) {
+      req.flash("error", "Token is invalid, please contact support");
+      return res.redirect("/campgrounds");
+    }
+    user.emailToken = null;
+    user.isVerified = true;
+    await user.save();
+    await req.login(user, async (err) => {
+      if (err) return next(err);
+      req.flash("success", `Welcome to Something by MN ${user.username}`);
+      const redirectUrl = req.session.redirectTo || "/campgrounds";
+      delete req.session.redirectTo;
+      res.redirect(redirectUrl);
+    });
+  } catch (error) {
+    console.log(error);
+    req.flash("error", error.message);
+    res.redirect("/campgrounds");
+  }
 });
 
 //show login form
@@ -58,6 +113,7 @@ router.get("/login", function (req, res) {
 //handling login logic
 router.post(
   "/login",
+  isNotVerified,
   passport.authenticate("local", {
     successRedirect: "/campgrounds",
     failureRedirect: "/login",
