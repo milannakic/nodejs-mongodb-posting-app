@@ -15,7 +15,6 @@ const Comment = require("./models/comment");
 const expressSanitizer = require("express-sanitizer");
 //const seedDB = require("./seeds");
 
-//all routes
 const indexRoutes = require("./routes/index");
 const campgroundsRoutes = require("./routes/campgrounds");
 const commentRoutes = require("./routes/comments");
@@ -36,6 +35,8 @@ mongoose.connect(uri, options).then(
   () => {},
   (err) => {
     console.log(err);
+    var d = Date(Date.now()).toString();
+    console.log.call(console, d);
   }
 );
 
@@ -93,7 +94,7 @@ app.use("/campgrounds", campgroundsRoutes);
 app.use("/campgrounds/:id/comments", commentRoutes);
 
 //listener adapted to cover HEROKU and local
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 15743;
 app.listen(port, function () {
   console.log("App is running on PORT: " + port);
 });

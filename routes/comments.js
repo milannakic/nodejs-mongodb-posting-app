@@ -38,6 +38,8 @@ router.post("/", isLoggedIn, function (req, res) {
           campground.comments.push(comment);
           campground.save();
           console.log(comment);
+          var d = Date(Date.now()).toString();
+          console.log.call(console, d);
           req.flash("success", "Created a comment!");
           res.redirect("/campgrounds/" + campground._id);
         }

@@ -188,6 +188,8 @@ router.post("/forgot", function (req, res, next) {
         };
         smtpTransport.sendMail(mailOptions, function (err) {
           console.log("reset password mail sent to: " + user.email);
+          var d = Date(Date.now()).toString();
+          console.log.call(console, d);
           req.flash(
             "success",
             "Reset e-mail has been sent to " +
@@ -410,6 +412,8 @@ router.post("/contact", async (req, res) => {
     console.log(
       "|| Contact form used by user: " + name + " ,email address: " + email
     );
+    var d = Date(Date.now()).toString();
+    console.log.call(console, d);
   } catch (error) {
     console.error(error);
     if (error.response) {

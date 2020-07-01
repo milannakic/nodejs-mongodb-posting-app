@@ -116,6 +116,8 @@ router.post("/", isLoggedIn, upload.single("image"), async function (req, res) {
         " created post: " +
         created.name
     );
+    var d = Date(Date.now()).toString();
+    console.log.call(console, d);
 
     let author = await User.findById(req.user._id).populate("followers").exec();
     let newNotification = {
@@ -156,6 +158,8 @@ router.get("/:id", function (req, res) {
       console.log(
         "|| Viewer action, post: " + foundCampground.name + " viewed"
       );
+      var d = Date(Date.now()).toString();
+      console.log.call(console, d);
       //render show template with that campground
       res.render("campgrounds/show", { campground: foundCampground });
     });
@@ -218,6 +222,8 @@ router.put(
           " updated post: " +
           campground.name
       );
+      var d = Date(Date.now()).toString();
+      console.log.call(console, d);
       res.redirect("/campgrounds/" + campground._id);
     });
   }
@@ -241,6 +247,8 @@ router.delete("/:id", isLoggedIn, checkUserCampground, function (req, res) {
           " deleted post: " +
           campground.name
       );
+      var d = Date(Date.now()).toString();
+      console.log.call(console, d);
       res.redirect("/campgrounds");
     } catch (err) {
       if (err) {
